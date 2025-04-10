@@ -101,7 +101,7 @@ const divineItems = [
         name: "Echoing Conch",
         description: "Pressing it to your ear lets you hear the final words of those who have passed. Sometimes it whispers secrets that only the dead should know.",
         rarity: "Rare",
-        probability: 0.04, // 4% chance
+        probability: 0.14, // 4% chance
         image: "echoing-conch.png"
     },
     {
@@ -157,7 +157,7 @@ const divineItems = [
         name: "Abyssal Crown",
         description: "A crown forged from metals not of this world. Grants insight into the darkest corners of reality. Those who wear it hear whispers of long-forgotten knowledge.",
         rarity: "Legendary",
-        probability: 0.007, // 0.7% chance
+        probability: 0.017, // 0.7% chance
         image: "abyssal-crown.png"
     },
     {
