@@ -1,4 +1,4 @@
-/* Global styles */
+/* Base styles */
 body {
   display: flex;
   flex-direction: column;
@@ -6,11 +6,13 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  background-color: #0a0a0a;
-  background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+  background: #0a0a0a radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
+}
 
+body.modal-open {
+  overflow: hidden;
 }
 
 .container {
@@ -20,16 +22,30 @@ body {
   max-width: 800px;
 }
 
+/* Typography */
 .title {
-  margin-top: 0;
+  margin: 0 0 20px;
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: 2px;
-  margin-bottom: 20px;
   text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
   color: #fff;
 }
 
+h2 {
+  margin-top: 0;
+  color: #f00;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+.warning-text {
+  color: #f55;
+  font-style: italic;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+/* Grim Reaper image */
 .grim-reaper {
   max-width: 260px;
   height: auto;
@@ -44,6 +60,7 @@ body {
   filter: drop-shadow(0 0 20px #ff0000aa);
 }
 
+/* Button styles */
 button {
   margin-top: 20px;
   padding: 15px 30px;
@@ -91,16 +108,32 @@ button:active {
   animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-  0% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0.2;
-  }
+#view-inventory-button {
+  background: linear-gradient(135deg, #222 0%, #444 100%);
+}
+
+#view-inventory-button:hover {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+}
+
+#stats-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  font-size: 0.9em;
+}
+
+#stats-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#confirmSell {
+  background: linear-gradient(135deg, #500 0%, #900 100%);
+}
+
+#confirmSell:hover {
+  background: linear-gradient(135deg, #700 0%, #b00 100%);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
 }
 
 /* Modal styles */
@@ -125,13 +158,17 @@ button:active {
   display: flex;
 }
 
+.modal.fade-out {
+  animation: modalFadeOut 0.3s ease-out forwards;
+}
+
 .modal-content {
   background-color: #1a1a1a;
   width: 90%;
   max-width: 90vw;
   padding: 30px;
   border-radius: 10px;
-  border: 2px solid #ff0000;
+  border: 2px solid #f00;
   color: white;
   position: relative;
   display: flex;
@@ -144,18 +181,7 @@ button:active {
   overflow: auto;
 }
 
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Close button for modals */
+/* Close buttons */
 .close, .close-reward, .close-inventory, .close-no-soul, .close-stats {
   position: absolute;
   top: 10px;
@@ -172,15 +198,7 @@ button:active {
   text-shadow: 0 0 8px red, 0 0 12px white;
 }
 
-/* Warning text */
-.warning-text {
-  color: #ff5555;
-  font-style: italic;
-  margin-top: 10px;
-  font-size: 0.9em;
-}
-
-/* Button styles inside modals */
+/* Modal buttons container */
 .modal-buttons {
   display: flex;
   gap: 20px;
@@ -197,15 +215,6 @@ button:active {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-#confirmSell {
-  background: linear-gradient(135deg, #500 0%, #900 100%);
-}
-
-#confirmSell:hover {
-  background: linear-gradient(135deg, #700 0%, #b00 100%);
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
 }
 
 .modal-buttons button:hover {
@@ -227,16 +236,10 @@ button:active {
 
 .modal-content li:before {
   content: "•";
-  color: #ff0000;
+  color: #f00;
   display: inline-block;
   width: 1em;
   margin-right: 5px;
-}
-
-h2 {
-  margin-top: 0;
-  color: #ff0000;
-  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
 
 /* Item reward styling */
@@ -302,10 +305,21 @@ h2 {
 
 /* Inventory styling */
 .inventory-content {
-  overflow-y: auto;      /* Allows vertical scrolling */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-height: 80vh;
 }
+
+.inventory-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.inventory-content::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -348,6 +362,7 @@ h2 {
   object-fit: contain;
   display: block;
 }
+
 .inventory-item h3 {
   font-size: 1.1em;
   margin: 5px 0;
@@ -411,8 +426,8 @@ h2 {
 
 /* Rarity colors */
 .multiversal {
-  color: #ff00ff; /* Vibrant magenta/purple */
-  text-shadow: 0 0 10px #ff00ff, 0 0 15px white;
+  color: #f0f;
+  text-shadow: 0 0 10px #f0f, 0 0 15px white;
   animation: multiversalPulse 2s infinite;
 }
 
@@ -441,7 +456,7 @@ h2 {
 }
 
 .corrupted {
-  color: #2e0000; /* Dark red */
+  color: #2e0000;
   text-shadow: 0 0 8px black;
 }
 
@@ -450,37 +465,77 @@ h2 {
   opacity: 0.8;
 }
 
-@keyframes multiversalPulse {
-  0% { text-shadow: 0 0 5px #ff00ff, 0 0 10px white; }
-  50% { text-shadow: 0 0 15px #ff00ff, 0 0 20px white, 0 0 30px #ff00ff; }
-  100% { text-shadow: 0 0 5px #ff00ff, 0 0 10px white; }
-}
-
-/* Animation for when new items are received */
-@keyframes glowingBorder {
-  0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
-  100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-}
-
 .new-item {
   animation: glowingBorder 2s ease-in-out infinite;
 }
 
-/* View inventory button styling */
-#view-inventory-button {
-  background: linear-gradient(135deg, #222 0%, #444 100%);
+.loot-animate {
+  animation: lootBurst 0.8s ease-out forwards;
+  z-index: 9999;
+  position: relative;
 }
 
-#view-inventory-button:hover {
-  background: linear-gradient(135deg, #333 0%, #555 100%);
+.item.legendary::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  border-radius: 50%;
+  box-shadow: 0 0 40px 10px gold;
+  opacity: 0.8;
+  animation: pulse 2s infinite ease-in-out;
+  z-index: -1;
 }
 
-/* Flash animation for transitions */
-@keyframes flash {
-  0% { opacity: 0; }
-  50% { opacity: 0.7; }
-  100% { opacity: 0; }
+/* Soul meter */
+#soul-meter {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 200px;
+  height: 20px;
+  background: #222;
+  border: 1px solid #f00;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px red;
+}
+
+#soul-meter-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #f00, #900);
+  transition: width 1s ease;
+}
+
+/* Admin panel */
+#adminItemPanel select {
+  background: linear-gradient(135deg, #111 0%, #222 100%);
+  color: #fff;
+  border: 1px solid #f00;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  width: 100%;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+  outline: none;
+}
+
+#adminItemPanel select:focus {
+  border-color: #f44;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+#adminItemPanel label {
+  color: #f55;
+  font-weight: bold;
+  text-shadow: 0 0 3px red;
+  display: block;
+  margin-bottom: 8px;
 }
 
 /* Footer */
@@ -498,15 +553,65 @@ footer {
   margin-top: 20px;
 }
 
-#stats-button {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 8px 15px;
-  font-size: 0.9em;
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
 }
 
-#stats-button:hover {
-  background: rgba(255, 255, 255, 0.05);
+@keyframes glowingBorder {
+  0%, 100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+}
+
+@keyframes multiversalPulse {
+  0%, 100% { text-shadow: 0 0 5px #f0f, 0 0 10px white; }
+  50% { text-shadow: 0 0 15px #f0f, 0 0 20px white, 0 0 30px #f0f; }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+@keyframes lootBurst {
+  0% {
+    transform: scale(0.5) rotate(0deg);
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+    box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.8);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    box-shadow: 0 0 10px 4px rgba(255, 215, 0, 0.5);
+  }
 }
 
 /* Responsive design */
@@ -520,10 +625,8 @@ footer {
   }
   
   .inventory-grid {
-    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
-    width: 100%;
     margin-top: 10px;
   }
   
@@ -542,122 +645,4 @@ footer {
   .percentage-bar {
     width: 100%;
   }
-}
-#adminItemPanel select {
-  background: linear-gradient(135deg, #111 0%, #222 100%);
-  color: #fff;
-  border: 1px solid #ff0000;
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 1em;
-  font-weight: 600;
-  letter-spacing: 1px;
-  width: 100%;
-  box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
-  outline: none;
-}
-
-#adminItemPanel select:focus {
-  border-color: #ff4444;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-
-#adminItemPanel label {
-  color: #ff5555;
-  font-weight: bold;
-  text-shadow: 0 0 3px red;
-  display: block;
-  margin-bottom: 8px;
-}
-.inventory-content {
-  max-height: 80vh;
-  overflow-y: auto;
-}
-body.modal-open {
-  overflow: hidden;
-}
-.modal.fade-out {
-  animation: modalFadeOut 0.3s ease-out forwards;
-}
-
-@keyframes modalFadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-}
-#soul-meter {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 200px;
-  height: 20px;
-  background: #222;
-  border: 1px solid #ff0000;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px red;
-}
-#soul-meter-fill {
-  height: 100%;
-  width: 100%; /* animate this down over time */
-  background: linear-gradient(90deg, #f00, #900);
-  transition: width 1s ease;
-}
-@keyframes lootBurst {
-  0% {
-    transform: scale(0.5) rotate(0deg);
-    opacity: 0;
-    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
-  }
-  50% {
-    transform: scale(1.2) rotate(180deg);
-    opacity: 1;
-    box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.8);
-  }
-  100% {
-    transform: scale(1) rotate(360deg);
-    box-shadow: 0 0 10px 4px rgba(255, 215, 0, 0.5);
-  }
-}
-.loot-animate {
-  animation: lootBurst 0.8s ease-out forwards;
-  z-index: 9999;
-  position: relative;
-}
-.item.legendary::after {
-  content: '';
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  width: calc(100% + 20px);
-  height: calc(100% + 20px);
-  border-radius: 50%;
-  box-shadow: 0 0 40px 10px gold;
-  opacity: 0.8;
-  animation: pulse 2s infinite ease-in-out;
-  z-index: -1;
-}
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-}
-
-.inventory-content::-webkit-scrollbar {
-  width: 0px;            /* Chrome, Safari */
-  height: 0px;           /* Optional: also hide horizontal scrollbar */
-}
-
-.inventory-content::-webkit-scrollbar-thumb {
-  background: transparent; /* Just in case */
 }
