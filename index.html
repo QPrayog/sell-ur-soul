@@ -10,6 +10,16 @@
   <div class="container">
     <h1 class="title">Soul Taker</h1>
     <img src="images/soul-taker.png" alt="grim_reaper" class="grim-reaper" onerror="this.src='/api/placeholder/260/350'; this.onerror=null;">
+    <div class="soul-counter-container">
+      <div class="soul-counter">
+        <div class="soul-label">Souls Sold:</div>
+        <div id="souls-sold-count">0</div>
+      </div>
+      <div class="soul-counter">
+        <div class="soul-label">Souls Remaining:</div>
+        <div id="souls-remaining-count">13</div>
+      </div>
+    </div>
     <button id="sell-soul-button">Sell your Soul</button>
     <button id="view-inventory-button" style="display: none;">View Inventory</button>
   </div>
@@ -63,7 +73,7 @@
       <p>The transaction is irreversible.</p>
       <div class="modal-buttons">
         <button id="closeNoSoul" class="close-bottom">Close</button>
-</div>
+      </div>
     </div>
   </div>
 
@@ -122,8 +132,6 @@
     </div>
   </div>
  
-
-
   <footer>
     <button id="stats-button">View Drop Rates</button>
     <p class="copyright">© 2025 Soul Taker Corp. All rights and souls reserved.</p>
