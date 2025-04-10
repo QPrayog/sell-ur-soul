@@ -1,3 +1,8 @@
+/* Set root scaling */
+:root {
+  font-size: 80%; /* Base scaling at 80% */
+}
+
 /* Base styles */
 body {
   display: flex;
@@ -9,6 +14,7 @@ body {
   background: #0a0a0a radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
+  font-size: 1rem; /* Will be relative to root scaling */
 }
 
 body.modal-open {
@@ -20,6 +26,8 @@ body.modal-open {
   position: relative;
   padding: 40px 20px;
   max-width: 800px;
+  transform: scale(0.8);
+  transform-origin: center center;
 }
 
 /* Typography */
@@ -179,6 +187,8 @@ button:active {
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
   max-height: 90vh; 
   overflow: auto;
+  transform: scale(0.8);
+  transform-origin: center center;
 }
 
 /* Close buttons */
@@ -501,6 +511,8 @@ button:active {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 0 10px red;
+  transform: scale(0.8);
+  transform-origin: top left;
 }
 
 #soul-meter-fill {
@@ -545,6 +557,8 @@ footer {
   width: 100%;
   padding: 20px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transform: scale(0.8);
+  transform-origin: center bottom;
 }
 
 .copyright {
@@ -578,22 +592,22 @@ footer {
 @keyframes modalFadeIn {
   from {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(50px) scale(0.8);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(0.8);
   }
 }
 
 @keyframes modalFadeOut {
   from {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(0.8);
   }
   to {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(50px) scale(0.8);
   }
 }
 
