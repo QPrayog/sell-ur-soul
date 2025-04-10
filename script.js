@@ -6,25 +6,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const noSoulModal = document.getElementById("noSoulModal");
   const statsModal = document.getElementById("statsModal");
 
-  // === Soul Counter Elements ===
-  const soulsSoldCount = document.getElementById("souls-sold-count");
-  const soulsRemainingCount = document.getElementById("souls-remaining-count");
-
-  // === Constants ===
-  const TOTAL_SOULS = 13; // Total souls a user can sell (arbitrary number)
-
   // === Buttons ===
   const sellBtn = document.getElementById("sell-soul-button");
   const viewInventoryBtn = document.getElementById("view-inventory-button");
   const statsBtn = document.getElementById("stats-button");
-  
-  // Initialize counts on page load
-  updateSoulCounts();
-  
   // Show inventory button if soul was already sold
-  if (isSoulSold()) {
-    viewInventoryBtn.style.display = "inline-block";
-  }
+if (isSoulSold()) {
+  viewInventoryBtn.style.display = "inline-block";
+}
+
 
   // === Toggle Modal Visibility ===
   function toggleModal(modal, show) {
@@ -48,65 +38,63 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   setupCloseListeners();
-  
   // === Admin Item Grant UI ===
-  function createAdminItemPanel() {
-    const panel = document.createElement('div');
-    panel.id = 'adminItemPanel';
-    panel.style = `
-      margin-top: 20px;
-      background: rgba(255,255,255,0.05);
-      padding: 20px;
-      border: 1px solid red;
-      border-radius: 10px;
-      max-width: 400px;
-    `;
+function createAdminItemPanel() {
+  const panel = document.createElement('div');
+  panel.id = 'adminItemPanel';
+  panel.style = `
+    margin-top: 20px;
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border: 1px solid red;
+    border-radius: 10px;
+    max-width: 400px;
+  `;
 
-    const label = document.createElement('label');
-    label.textContent = "Choose Item:";
-    label.style.display = "block";
-    label.style.marginBottom = "8px";
-    panel.appendChild(label);
+  const label = document.createElement('label');
+  label.textContent = "Choose Item:";
+  label.style.display = "block";
+  label.style.marginBottom = "8px";
+  panel.appendChild(label);
 
-    const select = document.createElement('select');
-    select.id = 'adminItemSelect';
-    select.style = "width: 100%; padding: 10px; margin-bottom: 15px;";
-    divineItems.forEach(item => {
-      const option = document.createElement('option');
-      option.value = item.id;
-      option.textContent = `${item.name} (${item.rarity})`;
-      select.appendChild(option);
-    });
-    panel.appendChild(select);
+  const select = document.createElement('select');
+  select.id = 'adminItemSelect';
+  select.style = "width: 100%; padding: 10px; margin-bottom: 15px;";
+  divineItems.forEach(item => {
+    const option = document.createElement('option');
+    option.value = item.id;
+    option.textContent = `${item.name} (${item.rarity})`;
+    select.appendChild(option);
+  });
+  panel.appendChild(select);
 
-    const giveBtn = document.createElement('button');
-    giveBtn.textContent = 'Grant Item';
-    giveBtn.style = "padding: 10px 20px; background: darkred; color: white; border: none; cursor: pointer;";
-    giveBtn.addEventListener('click', () => {
-      const id = parseInt(select.value);
-      const item = divineItems.find(i => i.id === id);
-      if (item) {
-        addItemToInventory(item);
-        incrementSoulsSold();
-        updateSoulCounts();
-        alert(`Granted: ${item.name}`);
-        viewInventoryBtn.style.display = "inline-block";
-      }
-    });
-    panel.appendChild(giveBtn);
-
-    document.querySelector('.container').appendChild(panel);
-  }
-
-  // === Shortcut: Ctrl + Shift + I to show admin item panel ===
-  document.addEventListener('keydown', function (e) {
-    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') {
-      e.preventDefault();
-      if (!document.getElementById('adminItemPanel')) {
-        createAdminItemPanel();
-      }
+  const giveBtn = document.createElement('button');
+  giveBtn.textContent = 'Grant Item';
+  giveBtn.style = "padding: 10px 20px; background: darkred; color: white; border: none; cursor: pointer;";
+  giveBtn.addEventListener('click', () => {
+    const id = parseInt(select.value);
+    const item = divineItems.find(i => i.id === id);
+    if (item) {
+      addItemToInventory(item);
+      alert(`Granted: ${item.name}`);
+      viewInventoryBtn.style.display = "inline-block";
     }
   });
+  panel.appendChild(giveBtn);
+
+  document.querySelector('.container').appendChild(panel);
+}
+
+// === Shortcut: Ctrl + Shift + I to show admin item panel ===
+document.addEventListener('keydown', function (e) {
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') {
+    e.preventDefault();
+    if (!document.getElementById('adminItemPanel')) {
+      createAdminItemPanel();
+    }
+  }
+});
+
 
   // === Sell Soul Button Logic ===
   sellBtn.addEventListener("click", function () {
@@ -147,10 +135,6 @@ document.addEventListener('DOMContentLoaded', function () {
       displaySelectedItem(selectedItem);
       toggleModal(rewardModal, true);
       viewInventoryBtn.style.display = "inline-block";
-      
-      // Update soul counts
-      incrementSoulsSold();
-      updateSoulCounts();
     }, 800);
 
     const rewardSound = new Audio("https://freesound.org/data/previews/320/320655_5260872-lq.mp3");
@@ -275,43 +259,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
-  
-  // === Soul Counter Functions ===
-  function updateSoulCounts() {
-    const soulsSold = getSoulsSold();
-    const soulsRemaining = TOTAL_SOULS - soulsSold;
-    
-    // Update the display
-    soulsSoldCount.textContent = soulsSold;
-    soulsRemainingCount.textContent = soulsRemaining;
-    
-    // Apply animation
-    soulsSoldCount.classList.add('count-change');
-    soulsRemainingCount.classList.add('count-change');
-    
-    // Remove animation class after animation completes
-    setTimeout(() => {
-      soulsSoldCount.classList.remove('count-change');
-      soulsRemainingCount.classList.remove('count-change');
-    }, 500);
-    
-    // Disable sell button if no souls remaining
-    if (soulsRemaining <= 0) {
-      sellBtn.disabled = true;
-      sellBtn.style.opacity = "0.5";
-      sellBtn.style.cursor = "not-allowed";
-      sellBtn.title = "No souls remaining";
-    }
-  }
-  
-  function getSoulsSold() {
-    return parseInt(localStorage.getItem('soulsSold') || '0');
-  }
-  
-  function incrementSoulsSold() {
-    const current = getSoulsSold();
-    localStorage.setItem('soulsSold', current + 1);
-  }
 });
 
 // === Utility Functions ===
@@ -354,6 +301,38 @@ function selectRandomItem() {
 function resetGame() {
   localStorage.removeItem('soulSold');
   localStorage.removeItem('inventory');
-  localStorage.removeItem('soulsSold');
   location.reload();
 }
+const itemList = items.map(item => `${item.name} (${item.rarity})`);
+
+const dropdown = document.getElementById("customDropdown");
+const selected = dropdown.querySelector(".selected");
+const optionsContainer = dropdown.querySelector(".options");
+
+itemList.forEach(item => {
+  const option = document.createElement("div");
+  option.classList.add("option");
+  option.textContent = item;
+  option.onclick = () => {
+    selected.textContent = item;
+    optionsContainer.classList.add("hidden");
+  };
+  optionsContainer.appendChild(option);
+});
+
+selected.onclick = () => {
+  optionsContainer.classList.toggle("hidden");
+};
+function animateLootDrop(itemElement) {
+  itemElement.classList.add("loot-animate");
+
+  // Optional: remove the class after animation ends for reusability
+  itemElement.addEventListener("animationend", () => {
+    itemElement.classList.remove("loot-animate");
+  }, { once: true });
+}
+// When opening modal
+document.body.classList.add('modal-open');
+
+// When closing modal
+document.body.classList.remove('modal-open');
