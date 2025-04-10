@@ -4,140 +4,136 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Soul Taker</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <h1 class="title">Soul Taker</h1>
-    <img src="images/soul-taker.png" alt="grim_reaper" class="grim-reaper" onerror="this.src='/api/placeholder/260/350'; this.onerror=null;">
-    <div class="soul-counter-container">
-      <div class="soul-counter">
-        <div class="soul-label">Souls Sold:</div>
-        <div id="souls-sold-count">0</div>
+    <header>
+      <h1 class="title">Soul Taker</h1>
+      <div class="subtitle">Sell your soul. Claim your reward.</div>
+    </header>
+    
+    <main>
+      <img src="images/soul-taker.png" alt="Grim Reaper" class="grim-reaper" onerror="this.src='/api/placeholder/260/350'; this.onerror=null;">
+      
+      <div class="soul-counter-container">
+        <div class="soul-counter">
+          <div class="soul-label">Souls Sold</div>
+          <div id="souls-sold-count">0</div>
+        </div>
+        <div class="soul-counter">
+          <div class="soul-label">Souls Remaining</div>
+          <div id="souls-remaining-count">13</div>
+        </div>
       </div>
-      <div class="soul-counter">
-        <div class="soul-label">Souls Remaining:</div>
-        <div id="souls-remaining-count">13</div>
+      
+      <div class="button-container">
+        <button id="sell-soul-button" class="primary-button">Sell Your Soul</button>
+        <button id="view-inventory-button" class="secondary-button">View Inventory</button>
       </div>
-    </div>
-    <button id="sell-soul-button">Sell your Soul</button>
-    <button id="view-inventory-button" style="display: none;">View Inventory</button>
-  </div>
+    </main>
 
-  <!-- Soul Transaction Modal -->
-  <div id="soulModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>SOUL TRANSACTION</h2>
-      <p>Warning: This action is permanent. You will receive:</p>
-      <ul>
-        <li>1 Random Item (if your soul is worthy)</li>
-        <li>Eternal Consequences</li>
-      </ul>
-      <p class="warning-text">Beware: Some souls are too corrupted for exchange.</p>
-      <div class="modal-buttons">
-        <button id="confirmSell">SELL SOUL</button>
-        <button id="cancelSell">KEEP SOUL</button>
+    <!-- Soul Transaction Modal -->
+    <div id="soulModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>SOUL TRANSACTION</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>Warning: This action is permanent. You will receive:</p>
+          <ul>
+            <li>1 Random Item (if your soul is worthy)</li>
+            <li>Eternal Consequences</li>
+          </ul>
+          <p class="warning-text">Beware: Some souls are too corrupted for exchange.</p>
+        </div>
+        <div class="modal-footer">
+          <button id="confirmSell" class="danger-button">SELL SOUL</button>
+          <button id="cancelSell" class="cancel-button">KEEP SOUL</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Reward Modal -->
-  <div id="rewardModal" class="modal">
-    <div class="modal-content">
-      <span class="close-reward">&times;</span>
-      <!-- Content will be dynamically inserted by JavaScript -->
-    </div>
-  </div>
-  
-  <!-- Inventory Modal -->
-  <div id="inventoryModal" class="modal">
-    <div class="modal-content inventory-content">
-      <span class="close-inventory">&times;</span>
-      <h2>YOUR INVENTORY</h2>
-      <div id="inventory-items" class="inventory-grid">
-        <!-- Inventory items will be inserted here -->
-      </div>
-      <div class="modal-buttons">
-        <button id="closeInventory" class="close-bottom">Close</button>
+    <!-- Reward Modal -->
+    <div id="rewardModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>YOUR REWARD</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <!-- Content will be dynamically inserted by JavaScript -->
+        </div>
+        <div class="modal-footer">
+          <button id="acceptReward" class="primary-button">ACCEPT</button>
+        </div>
       </div>
     </div>
-  </div>
+    
+    <!-- Inventory Modal -->
+    <div id="inventoryModal" class="modal">
+      <div class="modal-content inventory-content">
+        <div class="modal-header">
+          <h2>YOUR INVENTORY</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div id="inventory-items" class="inventory-grid">
+            <!-- Inventory items will be inserted here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="closeInventory" class="cancel-button">CLOSE</button>
+        </div>
+      </div>
+    </div>
 
-  <!-- No Soul Modal -->
-  <div id="noSoulModal" class="modal">
-    <div class="modal-content">
-      <span class="close-no-soul">&times;</span>
-      <h2>YOUR SOUL IS GONE</h2>
-      <p>You have already traded your soul.</p>
-      <p>The transaction is irreversible.</p>
-      <div class="modal-buttons">
-        <button id="closeNoSoul" class="close-bottom">Close</button>
+    <!-- No Soul Modal -->
+    <div id="noSoulModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>YOUR SOUL IS GONE</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>You have already traded your soul.</p>
+          <p>The transaction is irreversible.</p>
+        </div>
+        <div class="modal-footer">
+          <button id="closeNoSoul" class="cancel-button">CLOSE</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Statistics Modal -->
-  <div id="statsModal" class="modal">
-    <div class="modal-content">
-      <span class="close-stats">&times;</span>
-      <h2>ITEM RARITIES</h2>
-      <div class="stats-container">
-        <div class="rarity-bar multiversal">
-          <span>Multiversal</span>
-          <div class="percentage-bar">
-            <div class="fill" style="width: 0.3%;">0.3%</div>
+    <!-- Statistics Modal -->
+    <div id="statsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>ITEM RARITIES</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="stats-container">
+            <!-- Rarity bars will be inserted here -->
           </div>
         </div>
-        <div class="rarity-bar legendary">
-          <span>Legendary</span>
-          <div class="percentage-bar">
-            <div class="fill" style="width: 2.8%;">2.8%</div>
-          </div>
+        <div class="modal-footer">
+          <button id="closeStats" class="cancel-button">CLOSE</button>
         </div>
-        <div class="rarity-bar epic">
-          <span>Epic</span>
-          <div class="percentage-bar">
-            <div class="fill" style="width: 8%;">8%</div>
-          </div>
-        </div>
-        <div class="rarity-bar rare">
-          <span>Rare</span>
-          <div class="percentage-bar">
-            <div class="fill" style="width: 16%;">16%</div>
-          </div>
-        </div>
-        <div class="rarity-bar uncommon">
-          <span>Uncommon</span>
-          <div class="percentage-bar">
-            <div class="fill" style="width: 32%;">32%</div>
-          </div>
-        </div>
-        <div class="rarity-bar common">
-          <span>Common</span>
-          <div class="percentage-bar">
-            <div class="fill" style="width: 38%;">38%</div>
-          </div>
-        </div>
-        <div class="rarity-bar corrupted">
-          <span>Corrupted</span>
-          <div class="percentage-bar">
-            <div class="fill" style="width: 3%;">3%</div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-buttons">
-        <button id="closeStats" class="close-bottom">Close</button>
       </div>
     </div>
   </div>
  
   <footer>
-    <button id="stats-button">View Drop Rates</button>
+    <button id="stats-button" class="text-button">View Drop Rates</button>
     <p class="copyright">© 2025 Soul Taker Corp. All rights and souls reserved.</p>
   </footer>
 
   <script src="items.js"></script>
-  <script src="script.js"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>
