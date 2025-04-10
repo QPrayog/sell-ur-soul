@@ -323,3 +323,16 @@ itemList.forEach(item => {
 selected.onclick = () => {
   optionsContainer.classList.toggle("hidden");
 };
+function animateLootDrop(itemElement) {
+  itemElement.classList.add("loot-animate");
+
+  // Optional: remove the class after animation ends for reusability
+  itemElement.addEventListener("animationend", () => {
+    itemElement.classList.remove("loot-animate");
+  }, { once: true });
+}
+// When opening modal
+document.body.classList.add('modal-open');
+
+// When closing modal
+document.body.classList.remove('modal-open');
